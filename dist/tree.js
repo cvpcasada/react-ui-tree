@@ -17,6 +17,8 @@ proto.updateNodesPosition = function () {
   }
 
   function walk(children, parent, left, collapsed) {
+    children = children.filter(Number);
+
     var height = 1;
     children.forEach(function (id) {
       var node = self.getIndex(id);
