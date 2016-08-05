@@ -26,8 +26,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var UITree = function (_Component) {
-  _inherits(UITree, _Component);
+var UITree = function (_React$Component) {
+  _inherits(UITree, _React$Component);
 
   function UITree(props) {
     _classCallCheck(this, UITree);
@@ -138,6 +138,20 @@ var UITree = function (_Component) {
       this._offsetY = e.clientY;
       this._start = true;
 
+      // create a snapshot of the tree to compare
+      var currentNode = this.getNode(id);
+      var parent = this.getNode(currentNode.parent);
+
+      if (parent && parent.children) {
+        this.setState({
+          siblings: [currentNode.prev, currentNode.next]
+        });
+      } else {
+        this.setState({
+          siblings: []
+        });
+      }
+
       onDragStart && onDragStart(this.getNode(id));
 
       window.addEventListener('mousemove', this.drag);
@@ -149,6 +163,7 @@ var UITree = function (_Component) {
   }, {
     key: 'drag',
     value: function drag(e) {
+
       if (this._start) {
         this.setState({
           dragging: this.dragging
@@ -156,10 +171,14 @@ var UITree = function (_Component) {
         this._start = false;
       }
 
-      var tree = this.state.tree;
-      var dragging = this.state.dragging;
+      var _state = this.state;
+      var tree = _state.tree;
+      var dragging = _state.dragging;
       var paddingLeft = this.props.paddingLeft;
+
+
       var newIndex = null;
+
       var index = tree.getIndex(dragging.id);
       var collapsed = index.node.collapsed;
 
@@ -167,6 +186,7 @@ var UITree = function (_Component) {
       var _startY = this._startY;
       var _offsetX = this._offsetX;
       var _offsetY = this._offsetY;
+
 
       var pos = {
         x: _startX + e.clientX - _offsetX,
@@ -238,14 +258,24 @@ var UITree = function (_Component) {
     key: 'dragEnd',
     value: function dragEnd() {
       var onDragEnd = this.props.onDragEnd;
-      var _state = this.state;
-      var tree = _state.tree;
-      var id = _state.dragging.id;
+      var _state2 = this.state;
+      var tree = _state2.tree;
+      var id = _state2.dragging.id;
 
 
-      id && onDragEnd && onDragEnd(this.getNode(id));
+      var currentNode = this.getNode(id);
+
+      id && onDragEnd && onDragEnd(currentNode);
+
+      // if tree has changed we only trigger change evt
+      var parent = id && this.getNode(currentNode.parent);
+
+      if (id && parent && parent.children && (this.state.siblings[0] !== currentNode.prev || this.state.siblings[1] !== currentNode.next)) {
+        this.change(tree);
+      }
 
       this.setState({
+        siblings: [],
         dragging: {
           id: null,
           x: null,
@@ -255,7 +285,6 @@ var UITree = function (_Component) {
         }
       });
 
-      this.change(tree);
       window.removeEventListener('mousemove', this.drag);
       window.removeEventListener('mouseup', this.dragEnd);
     }
@@ -307,7 +336,7 @@ var UITree = function (_Component) {
   }]);
 
   return UITree;
-}(_react.Component);
+}(_react2.default.Component);
 
 UITree.propTypes = {
   tree: _react2.default.PropTypes.object.isRequired,
