@@ -63,6 +63,8 @@ var UITreeNode = function (_React$Component) {
     key: 'renderChildren',
     value: function renderChildren() {
       var _props = this.props;
+      var _props$showCollapse = _props.showCollapse;
+      var showCollapse = _props$showCollapse === undefined ? true : _props$showCollapse;
       var index = _props.index;
       var tree = _props.tree;
       var dragging = _props.dragging;
@@ -90,6 +92,7 @@ var UITreeNode = function (_React$Component) {
               paddingLeft: paddingLeft,
               onCollapse: onCollapse,
               onDragStart: onDragStart,
+              showCollapse: showCollapse,
               shouldRenderRootNode: shouldRenderRootNode
             });
           })
@@ -104,6 +107,8 @@ var UITreeNode = function (_React$Component) {
       var _props2 = this.props;
       var tree = _props2.tree;
       var node = _props2.index.node;
+      var _props2$showCollapse = _props2.showCollapse;
+      var showCollapse = _props2$showCollapse === undefined ? true : _props2$showCollapse;
       var shouldRenderRootNode = _props2.shouldRenderRootNode;
 
 
@@ -114,7 +119,7 @@ var UITreeNode = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'inner', ref: 'inner', onMouseDown: this.handleMouseDown },
-        this.renderCollapse(),
+        showCollapse && this.renderCollapse(),
         tree.renderNode(node)
       );
     }

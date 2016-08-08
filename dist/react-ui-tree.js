@@ -89,7 +89,8 @@ var UITree = function (_React$Component) {
           _react2.default.createElement(_node2.default, {
             tree: tree,
             index: draggingIndex,
-            paddingLeft: this.props.paddingLeft
+            paddingLeft: this.props.paddingLeft,
+            showCollapse: this.props.showCollapse
           })
         );
       }
@@ -115,6 +116,7 @@ var UITree = function (_React$Component) {
           onDragStart: this.dragStart,
           onCollapse: this.toggleCollapse,
           dragging: dragging && dragging.id,
+          showCollapse: this.props.showCollapse,
           shouldRenderRootNode: this.props.shouldRenderRootNode
         })
       );
@@ -344,11 +346,13 @@ UITree.propTypes = {
   renderNode: _react2.default.PropTypes.func.isRequired,
   onDragStart: _react2.default.PropTypes.func,
   onDragEnd: _react2.default.PropTypes.func,
+  showCollapse: _react2.default.PropTypes.bool,
   shouldRenderRootNode: _react2.default.PropTypes.bool
 };
 
 UITree.defaultProps = {
   paddingLeft: 20,
+  showCollapse: true,
   shouldRenderRootNode: true
 };
 
