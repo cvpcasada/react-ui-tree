@@ -112,9 +112,7 @@ var UITreeNode = function (_React$Component) {
       var shouldRenderRootNode = _props2.shouldRenderRootNode;
 
 
-      if (this.isRoot() && !shouldRenderRootNode) {
-        return null;
-      }
+      if (this.isRoot() && !shouldRenderRootNode) return _react2.default.createElement('div', { style: { height: '36px' } });
 
       return _react2.default.createElement(
         'div',

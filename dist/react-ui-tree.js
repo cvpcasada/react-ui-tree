@@ -104,9 +104,11 @@ var UITree = function (_React$Component) {
       var dragging = this.state.dragging;
       var draggingDom = this.getDraggingDom();
 
+      var style = !this.props.shouldRenderRootNode ? { top: '-36px' } : {};
+
       return _react2.default.createElement(
         'div',
-        { className: 'm-tree' },
+        { className: 'm-tree', style: style },
         draggingDom,
         _react2.default.createElement(_node2.default, {
           tree: tree,
@@ -273,7 +275,7 @@ var UITree = function (_React$Component) {
       var parent = id && this.getNode(currentNode.parent);
 
       if (id && parent && parent.children && (this.state.siblings[0] !== currentNode.prev || this.state.siblings[1] !== currentNode.next)) {
-        this.change(tree);
+        this.change(tree, currentNode, parent);
       }
 
       this.setState({
@@ -299,9 +301,9 @@ var UITree = function (_React$Component) {
     }
   }, {
     key: 'change',
-    value: function change(tree) {
+    value: function change(tree, currentNode, parent) {
       this._updated = true;
-      if (this.props.onChange) this.props.onChange(tree.obj);
+      if (this.props.onChange) this.props.onChange(tree.obj, currentNode, parent);
     }
   }, {
     key: 'toggleCollapse',

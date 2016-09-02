@@ -53,7 +53,7 @@ class App extends React.Component {
             onDragEnd={this.handleDragEnd}
             isNodeCollapsed={this.isNodeCollapsed}
             renderNode={this.renderNode}
-            shouldRenderRootNode={true}
+            shouldRenderRootNode={false}
           />
         </div>
         <div className="inspector">
